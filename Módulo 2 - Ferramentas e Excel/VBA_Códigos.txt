@@ -1,0 +1,81 @@
+Sub MacroTestandoPosicao()
+    ActiveCell.Value = "Estava aqui"
+    ActiveCell.Offset(-1, -1).Value = "a"
+    ActiveCell.Offset(0, -1).Value = "b"
+    ActiveCell.Offset(1, -1).Value = "c"
+    ActiveCell.Offset(-1, 0).Value = "d"
+    ActiveCell.Offset(1, 0).Value = "e"
+    ActiveCell.Offset(-1, 1).Value = "f"
+    ActiveCell.Offset(0, 1).Value = "g"
+    ActiveCell.Offset(1, 1).Value = "h"
+    Range("I8").Value = "Teste de cálculo em posição fixa"
+    Range("I9").Value = 2 ^ (2 - 1 + 1) / (2 * 2)
+    Range("I10").Value = Range("I9").Value / 2
+    Range("J17").Select
+    ActiveCell.Value = "Agora estou aqui"
+End Sub
+
+
+Sub CorrigindoDadosExemplo6()
+    Range("I10").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    For Each cel In Selection
+        DadosBrutos = Split(cel.Value, " ")
+        cel.Offset(0, 1).Value = DadosBrutos(0)
+        cel.Offset(0, 2).Value = DadosBrutos(1)
+        cel.Offset(0, 3).Value = DadosBrutos(2)
+        If cel.Offset(0, 2).Value = "U$" Then
+            cel.Offset(0, 4).Value = cel.Offset(0, 3).Value * 4.2
+        Else
+            cel.Offset(0, 4).Value = cel.Offset(0, 3).Value
+        End If
+    Next cel
+End Sub
+
+
+Function FuncaoSimplesExercicio(DadoEntrada As Variant) As Variant
+        If DadoEntrada = “AESAS" Then
+            FuncaoSimplesExercicio = "Você Digitou AULA"
+        Else
+            FuncaoSimplesExercicio = "Você Não Digitou AULA"
+        End If
+End Function
+
+
+
+
+Function TesteAnaliseDadosExemplo7(Optional Campo1 As Variant, Optional Campo2 As Variant, Optional Campo3 As Variant, Optional Campo4 As Variant, Optional LimiteVariacao As Variant) As Variant
+
+        On Error Resume Next
+        TesteAnaliseDadosExemplo7 = ""
+        Analise_Campo1 = ""
+        Analise_Campo2 = ""
+        Analise_Campo3 = ""
+        Analise_Campo4 = ""
+        Analise_Media = ""
+        If Campo1 = "" Then Analise_Campo1 = "'Campo 1' não relatado, favor relatar informação./ "
+        If Campo2 = "" Then Analise_Campo2 = "'Campo 2' não relatado, favor relatar informação./ "
+        If Campo3 = "" Then Analise_Campo3 = "'Campo 3' não relatado, favor relatar informação./ "
+        If Campo4 = "" Then Analise_Campo4 = "'Campo 4' não relatado, favor relatar informação./ "
+        If Campo1 = "" Then CalcCampo1 = 0 Else CalcCampo1 = Campo1
+        If Campo2 = "" Then CalcCampo2 = 0 Else CalcCampo2 = Campo2
+        If Campo3 = "" Then CalcCampo3 = 0 Else CalcCampo3 = Campo3
+        If Campo4 = "" Then CalcCampo4 = 0 Else CalcCampo4 = Campo4
+        Media = (CalcCampo1 + CalcCampo2 + CalcCampo3 + CalcCampo4) / 4
+		If Campo1 <> "" Then
+            If Campo1 / Media >= 1 + LimiteVariacao Or Campo1 / Media <= 1 - LimiteVariacao Then Analise_Media = "'Campo 1' fora do limite de variação./ "
+        End If
+        If Campo2 <> "" Then
+            If Campo2 / Media >= 1 + LimiteVariacao Or Campo2 / Media <= 1 - LimiteVariacao Then Analise_Media = Analise_Media & "'Campo 2' fora do limite de variação./ "
+        End If
+        If Campo3 <> "" Then
+            If Campo3 / Media >= 1 + LimiteVariacao Or Campo3 / Media <= 1 - LimiteVariacao Then Analise_Media = Analise_Media & "'Campo 3' fora do limite de variação./ "
+        End If
+        If Campo4 <> "" Then
+            If Campo4 / Media >= 1 + LimiteVariacao Or Campo4 / Media <= 1 - LimiteVariacao Then Analise_Media = Analise_Media & "'Campo 4' fora do limite de variação./ "
+        End If        
+        TesteAnaliseDadosExemplo7 = Analise_Campo1 & Analise_Campo2 & Analise_Campo3 & Analise_Campo4 & Analise_Media
+End Function
+
+
+
